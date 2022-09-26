@@ -14,6 +14,9 @@ import {MatInputModule} from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 
+import { VillainService } from './Core/services/villain.service';
+import { SuperpowerService } from './Core/services/superpower.service';
+
 import { VillainsComponent } from './Components/villains/villains.component';
 import { HeaderComponent } from './Components/villains/header/header.component';
 import { VillainCardComponent } from './Components/villains/villain-card/villain-card/villain-card.component';
@@ -40,9 +43,9 @@ import { VillainFormComponent } from './Components/villains/header/villain-form/
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [VillainService, SuperpowerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

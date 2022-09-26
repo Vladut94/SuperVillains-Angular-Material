@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { VillainService } from 'src/app/Core/services/villain.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-villain-form',
@@ -8,9 +10,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class VillainFormComponent implements OnInit {
 
-  villainForm !: FormGroup
+  villainForm !: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private villainService: VillainService, private dialogRef: MatDialogRef<VillainFormComponent>) { }
 
   ngOnInit(): void {
     this.villainForm = this.formBuilder.group({
@@ -21,6 +23,18 @@ export class VillainFormComponent implements OnInit {
   }
 
   addVillain() {
-    console.log(this.villainForm.value);
+    if(this.villainForm.valid) {
+      this.villainService.addVillain(this.villainForm.value)
+      .subscribe({
+        next:(res)=> {
+          alert("Villain added successfully");
+          this.villainForm.reset();
+          // this.villainForm.close();
+        },
+        error:()=> {
+          alert("Error while adding the product")
+        }
+      })
+    }
   }
 }

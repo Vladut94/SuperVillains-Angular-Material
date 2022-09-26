@@ -1,4 +1,7 @@
 <app-header></app-header>
 <div class="container-fluid row row-cols-md-3 row-cols-lg-6">
-<app-villain-card></app-villain-card>
+<app-villain-card
+    *ngFor="let villain of villains"
+    [villain]="villain"
+></app-villain-card>
 </div>
