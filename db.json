@@ -21,20 +21,9 @@
       ]
     },
     {
-      "id": 3,
-      "realName": "Darkseid",
-      "supervillainName": "The ruler of Apokolips",
-      "imageUrl": "https://i.pinimg.com/originals/82/e7/a0/82e7a0c564cd6e8065ea61083fa0766f.jpg",
-      "superpowersIds": [
-        1,
-        2,
-        3
-      ]
-    },
-    {
       "realName": "Joker",
       "supervillainName": "Crazy Joker",
-      "imageUrl": "https://i.pinimg.com/originals/82/e7/a0/82e7a0c564cd6e8065ea61083fa0766f.jpg",
+      "imageUrl": "https://www.gds.ro/wp-content/uploads/2019/09/joker.jpg",
       "id": 4
     },
     {

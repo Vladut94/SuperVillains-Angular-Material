@@ -35,4 +35,16 @@ export class VillainService {
 
     return this.http.post<Villain>(url, villain)
   }
+
+  deleteVillain(id: number) {
+    const url = `${this.baseUrl}/villains/${id}`
+
+    return this.http.delete<Villain>(url);
+  }
+
+  editVillain(villain: Villain, id: number) {
+    const url = `${this.baseUrl}/villains/${id}`;
+
+    return this.http.patch<Villain>(url, villain);
+  }
 }

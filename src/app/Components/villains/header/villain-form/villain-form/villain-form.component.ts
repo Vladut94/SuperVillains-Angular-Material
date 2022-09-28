@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { VillainService } from 'src/app/Core/services/villain.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-villain-form',
@@ -11,8 +11,13 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class VillainFormComponent implements OnInit {
 
   villainForm !: FormGroup;
+  actionBtn : string = "Save";
 
-  constructor(private formBuilder: FormBuilder, private villainService: VillainService, private dialogRef: MatDialogRef<VillainFormComponent>) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private villainService: VillainService,
+    @Inject(MAT_DIALOG_DATA) public editData: any,
+    private dialogRef: MatDialogRef<VillainFormComponent>) { }
 
   ngOnInit(): void {
     this.villainForm = this.formBuilder.group({
@@ -20,9 +25,18 @@ export class VillainFormComponent implements OnInit {
       supervillainName : ['', Validators.required],
       imageUrl : ['', Validators.required]
     })
+
+    if(this.editData) {
+      this.actionBtn = "Update";
+      this.villainForm.controls['realName'].patchValue(this.editData.realName);
+      this.villainForm.controls['supervillainName'].patchValue(this.editData.supervillainName);
+      this.villainForm.controls['imageUrl'].patchValue(this.editData.imageUrl);
+    }
+    
   }
 
   addVillain() {
+   if(!this.editData){
     if(this.villainForm.valid) {
       this.villainService.addVillain(this.villainForm.value)
       .subscribe({
@@ -36,5 +50,22 @@ export class VillainFormComponent implements OnInit {
         }
       })
     }
+   }else {
+    this.updateVillain()
+   }
+  }
+
+  updateVillain() {
+    this.villainService.editVillain(this.villainForm.value, this.editData.id)
+      .subscribe({
+        next: (res) => {
+          alert("Daca nu a aparut, apasa F5");
+          this.villainForm.reset();
+          this.dialogRef.close('update');
+        },
+        error: () => {
+          alert("Error while updating the villain!!");
+        }
+      })
   }
 }

@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Villain } from 'src/app/Core/interfaces/villain.interface';
+import { VillainFormComponent } from '../../header/villain-form/villain-form/villain-form.component';
+import { MatDialog} from '@angular/material/dialog';
+import { VillainService } from 'src/app/Core/services/villain.service';
 
 @Component({
   selector: 'app-villain-card',
@@ -10,9 +13,25 @@ export class VillainCardComponent implements OnInit {
   @Input()
   villain!: Villain;
 
-  constructor() { }
+  
+
+  constructor(private dialog : MatDialog, private villainService : VillainService) { }
 
   ngOnInit(): void {
   }
 
+  editVillain() {
+    this.dialog.open(VillainFormComponent, {
+      width: '30%',
+      data: this.villain
+    }).afterClosed().subscribe(val => {
+      if(val === 'Update'){
+        this.villainService.getVillains();
+      }
+    })
+  }
+
+  deleteVillain() {
+    this.villainService.deleteVillain(this.villain.id).subscribe();
+  }
 }

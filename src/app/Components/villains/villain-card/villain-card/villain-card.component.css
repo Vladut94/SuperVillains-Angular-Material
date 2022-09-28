@@ -1,6 +1,6 @@
 .example-card {
     max-width: 400px;
-    margin: 20px;
+    margin: 8px auto;
     border-radius: 6px;
     border: 0.5px solid rgb(67, 7, 7);
     background-color: rgb(83, 85, 86);
@@ -14,4 +14,9 @@
   .image-card {
     height: auto;
     aspect-ratio: 1/1;
+  }
+  
+  .actions-card-delete {
+    float: right;
+    margin-right: 30px;
   }
