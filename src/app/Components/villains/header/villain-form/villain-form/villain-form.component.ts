@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { VillainService } from 'src/app/Core/services/villain.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { VillainStoreService } from 'src/app/store/villain-store.service';
 
 @Component({
   selector: 'app-villain-form',
@@ -16,8 +17,9 @@ export class VillainFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder, 
     private villainService: VillainService,
-    @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<VillainFormComponent>) { }
+    @Inject(MAT_DIALOG_DATA) private editData: any,
+    private dialogRef: MatDialogRef<VillainFormComponent>,
+    private villainStoreService: VillainStoreService) { }
 
   ngOnInit(): void {
     this.villainForm = this.formBuilder.group({
@@ -38,17 +40,19 @@ export class VillainFormComponent implements OnInit {
   addVillain() {
    if(!this.editData){
     if(this.villainForm.valid) {
-      this.villainService.addVillain(this.villainForm.value)
-      .subscribe({
-        next:(res)=> {
-          alert("Villain added successfully");
-          this.villainForm.reset();
-          // this.villainForm.close();
-        },
-        error:()=> {
-          alert("Error while adding the product")
-        }
-      })
+      this.villainStoreService.addNewVillain(this.villainForm.value)
+      this.villainForm.reset()
+      this.dialogRef.close()
+      // .subscribe({
+      //   next:(res)=> {
+      //     alert("Villain added successfully");
+      //     this.villainForm.reset();
+      //     // this.villainForm.close();
+      //   },
+      //   error:()=> {
+      //     alert("Error while adding the product")
+      //   }
+      // })
     }
    }else {
     this.updateVillain()
@@ -56,16 +60,16 @@ export class VillainFormComponent implements OnInit {
   }
 
   updateVillain() {
-    this.villainService.editVillain(this.villainForm.value, this.editData.id)
-      .subscribe({
-        next: (res) => {
-          alert("Daca nu a aparut, apasa F5");
-          this.villainForm.reset();
-          this.dialogRef.close('update');
-        },
-        error: () => {
-          alert("Error while updating the villain!!");
-        }
-      })
+    this.villainStoreService.updateVillain(this.villainForm.value, this.editData.id)
+      // .subscribe({
+      //   next: (res) => {
+      //     alert("Daca nu a aparut, apasa F5");
+      //     this.villainForm.reset();
+      //     this.dialogRef.close('update');
+      //   },
+      //   error: () => {
+      //     alert("Error while updating the villain!!");
+      //   }
+      // })
   }
 }

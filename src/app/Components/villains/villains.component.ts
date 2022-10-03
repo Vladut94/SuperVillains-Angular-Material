@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Villain } from 'src/app/Core/interfaces/villain.interface';
 import { VillainService } from 'src/app/Core/services/villain.service';
+import { VillainStoreService } from 'src/app/store/villain-store.service';
 
 @Component({
   selector: 'app-villains',
@@ -11,12 +12,13 @@ export class VillainsComponent implements OnInit {
   villains!: Villain[];
 
   constructor(
-    private villainService: VillainService
+    private villainService: VillainService,
+    private villainStoreService: VillainStoreService
   ) { }
 
   ngOnInit(): void {
-    this.villainService.getVillains().subscribe((villains) =>
-      (this.villains = villains));
+    this.villainStoreService.villains$.subscribe((villains) =>
+    (this.villains = villains));
   }
 
 }

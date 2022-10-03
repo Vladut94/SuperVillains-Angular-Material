@@ -3,6 +3,7 @@ import { Villain } from 'src/app/Core/interfaces/villain.interface';
 import { VillainFormComponent } from '../../header/villain-form/villain-form/villain-form.component';
 import { MatDialog} from '@angular/material/dialog';
 import { VillainService } from 'src/app/Core/services/villain.service';
+import { VillainStoreService } from 'src/app/store/villain-store.service';
 
 @Component({
   selector: 'app-villain-card',
@@ -15,7 +16,10 @@ export class VillainCardComponent implements OnInit {
 
   
 
-  constructor(private dialog : MatDialog, private villainService : VillainService) { }
+  constructor(
+    private dialog : MatDialog, 
+    private villainService : VillainService,
+    private villainStoreService : VillainStoreService) { }
 
   ngOnInit(): void {
   }
@@ -32,6 +36,7 @@ export class VillainCardComponent implements OnInit {
   }
 
   deleteVillain() {
-    this.villainService.deleteVillain(this.villain.id).subscribe();
+    this.villainService.deleteVillain(this.villain.id).subscribe(() =>
+      (this.villainStoreService.deleteVillain(this.villain.id)));
   }
 }
